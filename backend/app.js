@@ -33,9 +33,9 @@ app.use(rateLimiting({
 }));
 
 // Cors Policy
-app.use(cors({
-  origin: "https://know-flow.vercel.app"
-}));
+// app.use(cors({
+//   origin: "https://know-flow.vercel.app"
+// }));
 
 // Routes
 app.use("/api/auth", require("./routes/authRoute"));
