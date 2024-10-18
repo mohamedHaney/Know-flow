@@ -2,7 +2,7 @@ const HeaderLeft = ({ toggle, setToggle }) => {
   return (
     <div className="header-left">
       <div className="header-logo">
-        <strong>Know_Flow</strong>
+        <strong>Know-Flow</strong>
         <i className="bi bi-pencil"></i>
       </div>
       <div onClick={() => setToggle((prev) => !prev)} className="header-menu">
