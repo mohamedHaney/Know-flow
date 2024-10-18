@@ -17,25 +17,26 @@ const app = express();
 // Middlewares
 app.use(express.json());
 
-// Security Headers (helmet)
-// app.use(helmet());
+Security Headers (helmet)
+app.use(helmet());
 
-// // Prevent Http Param Pollution
-// app.use(hpp());
+// Prevent Http Param Pollution
+app.use(hpp());
 
-// // Prevent XSS(Cross Site Scripting) Attacks
-// app.use(xss());
+// Prevent XSS(Cross Site Scripting) Attacks
+app.use(xss());
 
-// // Rate Limiting
-// app.use(rateLimiting({
-//   windowMs: 10 * 60 * 1000, // 10 minutes
-//   max:200,
-// }));
+// Rate Limiting
+app.use(rateLimiting({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max:200,
+}));
 
-// Cors Policy
-// app.use(cors({
-//   origin: "https://know-flow.vercel.app"
-// }));
+//Cors Policy
+app.use(cors({
+  origin: ["http://localhost:3000", "https://know-flow.vercel.app"]
+}));
+
 
 // Routes
 app.use("/api/auth", require("./routes/authRoute"));
