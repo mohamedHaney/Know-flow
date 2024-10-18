@@ -34,7 +34,7 @@ app.use(rateLimiting({
 
 // Cors Policy
 app.use(cors({
-  origin: "https://know-flow.vercel.app"
+  origin: "http://localhost:3000"
 }));
 
 // Routes
