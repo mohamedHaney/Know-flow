@@ -18,19 +18,19 @@ const app = express();
 app.use(express.json());
 
 // Security Headers (helmet)
-app.use(helmet());
+// app.use(helmet());
 
-// Prevent Http Param Pollution
-app.use(hpp());
+// // Prevent Http Param Pollution
+// app.use(hpp());
 
-// Prevent XSS(Cross Site Scripting) Attacks
-app.use(xss());
+// // Prevent XSS(Cross Site Scripting) Attacks
+// app.use(xss());
 
-// Rate Limiting
-app.use(rateLimiting({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max:200,
-}));
+// // Rate Limiting
+// app.use(rateLimiting({
+//   windowMs: 10 * 60 * 1000, // 10 minutes
+//   max:200,
+// }));
 
 // Cors Policy
 // app.use(cors({
