@@ -18,10 +18,10 @@ const { Comment } = require("../models/Comment");
  * @method  POST
  * @access  private (only logged in user)
  ------------------------------------------------*/
-module.exports.createPostCtrl = asyncHandler(async (req, res) => {
-  // 1. Validation for image
+ module.exports.createPostCtrl = asyncHandler(async (req, res) => {
+  // 1. Validation for file
   if (!req.file) {
-    return res.status(400).json({ message: "no image provided" });
+    return res.status(400).json({ message: "no media provided" });
   }
 
   // 2. Validation for data
@@ -30,9 +30,9 @@ module.exports.createPostCtrl = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: error.details[0].message });
   }
 
-  // 3. Upload photo
-  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
-  const result = await cloudinaryUploadImage(imagePath);
+  // 3. Upload photo or video
+  const mediaPath = path.join(__dirname, `../media/${req.file.filename}`);
+  const result = await cloudinaryUploadImage(mediaPath);
 
   // 4. Create new post and save it to DB
   const post = await Post.create({
@@ -40,18 +40,20 @@ module.exports.createPostCtrl = asyncHandler(async (req, res) => {
     description: req.body.description,
     category: req.body.category,
     user: req.user.id,
-    image: {
+    media: {
       url: result.secure_url,
       publicId: result.public_id,
+      type: result.resource_type,  // Image or video
     },
   });
 
   // 5. Send response to the client
   res.status(201).json(post);
 
-  // 6. Remove image from the server
-  fs.unlinkSync(imagePath);
+  // 6. Remove media from the server
+  fs.unlinkSync(mediaPath);
 });
+
 
 /**-----------------------------------------------
  * @desc    Get All Posts
@@ -212,7 +214,7 @@ module.exports.updatePostImageCtrl = asyncHandler(async (req, res) => {
   await cloudinaryRemoveImage(post.image.publicId);
 
   // 5. Upload new photo
-  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  const imagePath = path.join(__dirname, `../media/${req.file.filename}`);
   const result = await cloudinaryUploadImage(imagePath);
 
   // 6. Update the image field in the db
