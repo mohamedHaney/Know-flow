@@ -1,14 +1,13 @@
 const path = require("path");
 const multer = require("multer");
 
-// Media Storage (both photos and videos)
-const mediaStorage = multer.diskStorage({
+// Photo Storage
+const photoStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../media")); // Changed to 'uploads' for general media
+    cb(null, path.join(__dirname, "../images"));
   },
   filename: function (req, file, cb) {
     if (file) {
-      // Replacing ':' in the date string for Windows compatibility
       cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
     } else {
       cb(null, false);
@@ -16,20 +15,17 @@ const mediaStorage = multer.diskStorage({
   },
 });
 
-// Media Upload Middleware (for both photos and videos)
-const mediaUpload = multer({
-  storage: mediaStorage,
+// Photo Upload Middleware
+const photoUpload = multer({
+  storage: photoStorage,
   fileFilter: function (req, file, cb) {
-    if (
-      file.mimetype.startsWith("image") || // Allow images
-      file.mimetype.startsWith("video")    // Allow videos
-    ) {
+    if (file.mimetype.startsWith("video")) {
       cb(null, true);
     } else {
-      cb({ message: "Unsupported file format" }, false);
+      cb({ message: "Unsupported file format, only video files are allowed" }, false);
     }
   },
-  limits: { fileSize: 1024 * 1024 * 100 }, // Increased file size limit to 100MB
+  limits: { fileSize: 1024 * 1024 * 100 }, // Increase file size limit if needed for videos
 });
 
-module.exports = mediaUpload;
+module.exports = photoUpload;
