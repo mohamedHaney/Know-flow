@@ -6,11 +6,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Cloudinary Upload Image or Video
+// Cloudinary Upload Image
 const cloudinaryUploadImage = async (fileToUpload) => {
   try {
     const data = await cloudinary.uploader.upload(fileToUpload, {
-      resource_type: "auto", // Automatically detect image or video
+      resource_type: "video",
     });
     return data;
   } catch (error) {
@@ -18,7 +18,6 @@ const cloudinaryUploadImage = async (fileToUpload) => {
     throw new Error("Internal Server Error (cloudinary)");
   }
 };
-
 
 // Cloudinary Remove Image
 const cloudinaryRemoveImage = async (imagePublicId) => {
